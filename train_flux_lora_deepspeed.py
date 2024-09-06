@@ -242,8 +242,6 @@ def main():
         for step, batch in enumerate(train_dataloader):
             with accelerator.accumulate(dit):
                 img, prompts = batch
-                if img.shape[1] == 4:
-                    img = img[:, :3, :, :]
                 with torch.no_grad():
                     x_1 = vae.encode(img.to(accelerator.device).to(torch.float32))
                     inp = prepare(t5=t5, clip=clip, img=x_1, prompt=prompts)
